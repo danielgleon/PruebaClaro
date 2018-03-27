@@ -1,0 +1,50 @@
+﻿<Page
+    x:Class="PruebaClaro.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PruebaClaro"
+    xmlns:viewModels="using:PruebaClaro.ViewModels"
+    xmlns:models="using:PruebaDataAccess.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    >
+
+    <RelativePanel Background="Black">
+        <Image x:Name="logo" Source="../Assets/clarovideo-logo-sitio.png"
+               Height="30" Margin="5"
+               RelativePanel.AlignTopWithPanel="True" 
+               RelativePanel.AlignLeftWithPanel="True" />
+        <StackPanel x:Name="PanelBusqueda" 
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    RelativePanel.Below="logo"
+                    Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Buscar" VerticalAlignment="Center" Foreground="White"/>
+            <Border BorderBrush="White" BorderThickness="1" Width="250" Margin="10" Height="20" CornerRadius="9">
+                <TextBox Text="{Binding TextoBusqueda, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Foreground="White" Background="Black" BorderThickness="0" />
+            </Border>
+        </StackPanel>
+
+        <GridView  ItemsSource="{x:Bind VM.ColeccionPeliculas, Mode=OneWay}"
+                   ItemClick="GridView_ItemClick" IsItemClickEnabled="True"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"
+                   RelativePanel.Below="PanelBusqueda">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="models:Pelicula">
+                    <Grid Margin="5">
+                        <Image Grid.RowSpan="2" Source="{x:Bind ImageHorizontal}" Height="163" Width="290" />
+                        <Border Grid.Row="1">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Offset="0.594"/>
+                                    <GradientStop Color="#90404040" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="{x:Bind Titulo}" Foreground="White" VerticalAlignment="Bottom" Margin="5"/>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+    </RelativePanel>
+</Page>

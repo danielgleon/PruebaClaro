@@ -1,0 +1,137 @@
+﻿<Page
+    x:Class="PruebaClaro.Views.DetallePelicula"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PruebaClaro.Views"
+    xmlns:models="using:PruebaDataAccess.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    >
+    <Page.Resources>
+        <DataTemplate x:Name="TemplateTalento" x:DataType="models:Talento">
+            <Border BorderThickness="1" BorderBrush="White" CornerRadius="3" Padding="3" Margin="3">
+                <TextBlock Text="{x:Bind NombreCompleto, Mode=OneWay}" Foreground="White"/>
+            </Border>
+        </DataTemplate>
+    </Page.Resources>
+
+    <RelativePanel Background="Black">
+        <Image x:Name="logo" Source="../Assets/clarovideo-logo-sitio.png"
+               Height="30" Margin="5"
+               RelativePanel.AlignTopWithPanel="True" 
+               RelativePanel.AlignLeftWithPanel="True" />
+
+        <TextBlock x:Name="Titulo" FontWeight="Bold" FontSize="24" Margin="10"
+                   Text="{x:Bind VM.Pelicula.Titulo, Mode=OneWay}" Foreground="White"
+                   RelativePanel.Below="logo"/>
+
+        <Image x:Name="Imagen" 
+               Source="{x:Bind VM.Pelicula.ImageLarge, Mode=OneWay}"
+               Height="210" Width="400"
+               RelativePanel.Below="Titulo"
+               RelativePanel.AlignLeftWith="Titulo"/>
+
+        <TextBlock x:Name="tbxTitulo" FontWeight="Bold" Text="{x:Bind VM.Pelicula.Titulo, Mode=OneWay}" Foreground="White" 
+                   RelativePanel.RightOf="Imagen"
+                   RelativePanel.AlignTopWith="Imagen"/>
+        <TextBlock x:Name="tbxAnio" FontWeight="Bold" Text="{x:Bind VM.Pelicula.Anio, Mode=OneWay}" Foreground="White" Margin="25,0" 
+                   RelativePanel.RightOf="tbxTitulo"
+                    RelativePanel.AlignTopWith="Imagen"/>
+        <TextBlock x:Name="tbxDuracion" FontWeight="Bold" Text="{x:Bind VM.Pelicula.Duracion, Mode=OneWay}" Foreground="White" Margin="25,0" 
+                   RelativePanel.RightOf="tbxAnio"
+                    RelativePanel.AlignTopWith="Imagen"/>
+        <TextBlock x:Name="tbxRating" FontWeight="Bold" Text="{x:Bind VM.Pelicula.Rating.Codigo, Mode=OneWay}" Foreground="White"
+                   RelativePanel.RightOf="tbxDuracion"
+                    RelativePanel.AlignTopWith="Imagen"/>
+
+        <TextBlock x:Name="tbxDescripcion" Text="{x:Bind VM.Pelicula.Descripcion, Mode=OneWay}" Foreground="White" TextWrapping="Wrap" Margin="0,10" 
+                   RelativePanel.Below="tbxRating"
+                   RelativePanel.AlignLeftWith="tbxTitulo"/>
+
+        <TextBlock x:Name="tbxGenero" FontWeight="Bold" Text="Género:" Foreground="White" Margin="0,10" 
+                   RelativePanel.Below="tbxDescripcion"
+                   RelativePanel.AlignLeftWith="tbxTitulo"/>
+        <GridView x:Name="gdGenero" ItemsSource="{x:Bind VM.Pelicula.Generos, Mode=OneWay}" 
+                  RelativePanel.RightOf="tbxGenero"
+                  RelativePanel.AlignTopWith="tbxGenero">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="models:DatoBase">
+                    <Border BorderThickness="1" BorderBrush="White" CornerRadius="3" Padding="3" Margin="3">
+                        <TextBlock Text="{x:Bind Nombre, Mode=OneWay}" Foreground="White" />
+                    </Border>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+
+        <TextBlock FontWeight="Bold" Text="Actor:" Foreground="White" Margin="0,10" 
+                   RelativePanel.LeftOf="gdActores"
+                   RelativePanel.AlignTopWith="gdActores"
+                   RelativePanel.AlignLeftWith="tbxTitulo"/>
+        <GridView x:Name="gdActores" ItemsSource="{x:Bind VM.Actores, Mode=OneWay}" ItemTemplate="{StaticResource TemplateTalento}"
+                  RelativePanel.AlignLeftWith="gdGenero"
+                  RelativePanel.Below="gdGenero">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+
+        <TextBlock FontWeight="Bold" Text="Director:" Foreground="White" Margin="0,10" 
+                  RelativePanel.LeftOf="gdDirector" 
+                   RelativePanel.AlignTopWith="gdDirector"
+                   RelativePanel.AlignLeftWith="tbxTitulo"/>
+        <GridView x:Name="gdDirector" ItemsSource="{x:Bind VM.Directores, Mode=OneWay}" ItemTemplate="{StaticResource TemplateTalento}"
+                  RelativePanel.Below="gdActores"
+                  RelativePanel.AlignLeftWith="gdActores">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+
+        <TextBlock FontWeight="Bold" Text="Escritor:" Foreground="White" Margin="0,10" 
+                    RelativePanel.LeftOf="gdEscritor"
+                  RelativePanel.AlignTopWith="gdEscritor"
+                   RelativePanel.AlignLeftWith="tbxTitulo"/>
+        <GridView  x:Name="gdEscritor" ItemsSource="{x:Bind VM.Escritores, Mode=OneWay}" ItemTemplate="{StaticResource TemplateTalento}"
+                  RelativePanel.Below="gdDirector"
+                   RelativePanel.AlignLeftWith="gdDirector">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+
+        <TextBlock  FontWeight="Bold" Text="Productor:" Foreground="White" 
+                   RelativePanel.LeftOf="gdProductor"
+                  RelativePanel.AlignTopWith="gdProductor"
+                   RelativePanel.AlignLeftWith="tbxTitulo"/>
+        <GridView  x:Name="gdProductor" ItemsSource="{x:Bind VM.Productores, Mode=OneWay}" ItemTemplate="{StaticResource TemplateTalento}"
+                   RelativePanel.Below="gdEscritor">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+
+        <TextBlock FontWeight="Bold" Text="Titulo Original:" Foreground="White" 
+                   RelativePanel.LeftOf="tbxTituloOriginal"
+                   RelativePanel.AlignTopWith="tbxTituloOriginal"
+                   RelativePanel.AlignLeftWith="tbxTitulo"/>
+        <TextBlock  x:Name="tbxTituloOriginal" Text="{x:Bind VM.Pelicula.TituloOriginal, Mode=TwoWay}" Foreground="White" Margin="25,0" 
+                   RelativePanel.Below="gdProductor"
+                    RelativePanel.AlignLeftWith="gdProductor"/>
+
+
+    </RelativePanel>
+</Page>
